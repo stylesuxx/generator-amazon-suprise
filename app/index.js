@@ -106,6 +106,7 @@ module.exports = generators.Base.extend({
     },
 
     templates: function() {
+      this.template('_package.json', 'package.json');
       this.template('_config.js', 'config.js');
     }
   },
