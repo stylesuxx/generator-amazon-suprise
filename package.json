@@ -1,0 +1,21 @@
+{
+  "name": "generator-amazon-surprise",
+  "version": "0.0.0",
+  "description": "Generator that generates an amazon surprise bot",
+  "repository": "stylesuxx/generator-amazon-surprise",
+  "main": "index.js",
+  "files": [
+    "app"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Landa <stylesuxx@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^0.21.1"
+  }
+}
