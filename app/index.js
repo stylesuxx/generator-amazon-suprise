@@ -99,6 +99,7 @@ module.exports = generators.Base.extend({
   writing: {
     static: function() {
       this.copy('.gitignore', '.gitignore');
+      this.copy('utils/index.js', 'utils/index.js');
     },
 
     templates: function() {
