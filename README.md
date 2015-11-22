@@ -10,7 +10,7 @@ Install the generator globally:
 To invoke the generator create a directory for the generator and run it:
 
     mkdir generator-amazon-surprise
-    yo generator-amazon-surprise
+    yo amazon-surprise
 
 
 ## [MIT](https://opensource.org/licenses/MIT) License
