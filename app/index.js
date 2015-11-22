@@ -1,7 +1,7 @@
 'use strict';
 var generators = require('yeoman-generator');
 var chalk = require('chalk');
-var AWL = require('amazon-wish-list');
+var utils = require('./templates/utils')
 
 module.exports = generators.Base.extend({
   helper: {
@@ -13,12 +13,10 @@ module.exports = generators.Base.extend({
   },
 
   initializing: function() {
+    this.prompts = require('./prompts');
     this.author = { name: 'Chris Landa', email: 'stylesuxx@gmail.com'};
     this.appname = this.helper.cleanAppname(this.appname);
     this.lists = [];
-    this.cidValid = false;
-
-    this.prompts = require('./prompts');
 
     this.baseConfig = () => {
       return this.prompts.getAppname(this).then((appname) => {
@@ -37,10 +35,8 @@ module.exports = generators.Base.extend({
         this.cid = cid;
 
         this.log(chalk.green('>'), chalk.bold('Fetching public lists...'));
-        var awl = new AWL(this.tld);
-        return awl.getByCid(this.cid);
+        return utils.getListsByCid(this.tld, this.cid);
       }).then((lists) => {
-        this.cidValid = true;
         var choices = [];
         for(let list of lists) {
           choices.push({
