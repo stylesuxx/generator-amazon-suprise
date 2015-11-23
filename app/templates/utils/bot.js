@@ -46,6 +46,19 @@ class Bot {
       return this.lists;
     });
   }
+
+  getFiltered() {
+    var filtered = [];
+    for(let list of this.lists) {
+      for(let item of list.items) {
+        if(item.price >= this.minLimit && item.price <= this.maxLimit) {
+          filtered.push(item);
+        }
+      }
+    }
+
+    return filtered;
+  }
 }
 
 export default Bot;
