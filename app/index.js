@@ -34,7 +34,7 @@ module.exports = generators.Base.extend({
       return this.prompts.getCid(this).then((cid) =>{
         this.cid = cid;
 
-        this.log(chalk.green('>'), chalk.bold('Fetching public lists...'));
+        this.log(chalk.green('>'), chalk.bold('Fetching public lists - this may take some time...'));
         return utils.getListsByCid(this.tld, this.cid);
       }).then((lists) => {
         var choices = [];
@@ -86,7 +86,24 @@ module.exports = generators.Base.extend({
     }).then((multiple) => {
       this.multiple = multiple;
 
-      done();
+      return utils.getItemsInRange(this.tld, this.lists, this.minLimit, this.maxLimit);
+    }).then((items) => {
+        this.matches = items;
+
+        return this.prompts.getShowMatches(this, items);
+    }).then((show) => {
+        if(show) {
+          for(let match of this.matches) {
+            var price = match.price.toFixed(2);
+            var padding = 7 - price.length;
+            for(var i = 0; i < padding; i++) {
+              price = ' ' + price;
+            }
+
+            this.log(chalk.green('> ') + chalk.bold(match.currency + ' ' + price + ' - ' + match.title));
+          }
+        }
+        done();
     });
   },
 
@@ -99,6 +116,8 @@ module.exports = generators.Base.extend({
   writing: {
     static: function() {
       this.copy('.gitignore', '.gitignore');
+      this.copy('index.js', 'index.js');
+
       this.copy('utils/index.js', 'utils/index.js');
     },
 
