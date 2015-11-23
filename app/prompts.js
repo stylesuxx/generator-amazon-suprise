@@ -93,6 +93,19 @@ module.exports = {
     });
   },
 
+  getShowMatches: function(generator, items) {
+    return new Promise((resolve, reject) => {
+      generator.prompt({
+        type: 'confirm',
+        name: 'showMatches',
+        message: 'Found ' + items.length + ' items that match your price range, show them?',
+        default: true
+      }, (answers) => {
+        resolve(answers.showMatches);
+      });
+    });
+  },
+
   getRetry: function(generator) {
     return new Promise((resolve, reject) => {
       generator.prompt({
