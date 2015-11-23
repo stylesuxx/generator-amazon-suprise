@@ -8,7 +8,12 @@
     "app"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf lib",
+    "build": "npm run clean && ./node_modules/.bin/babel app/templates/utils --out-dir lib",
+    "test": "npm run build && node ./tests/index.js",
+    "lint": "./node_modules/.bin/eslint src",
+    "prepublish": "npm run build",
+    "preversion": "npm test"
   },
   "author": "Chris Landa <stylesuxx@gmail.com>",
   "license": "MIT",
@@ -17,11 +22,13 @@
   ],
   "dependencies": {
     "amazon-wish-list": "^0.4.0",
-    "bluebird": "^3.0.5",
     "chalk": "^1.1.1",
     "yeoman-generator": "^0.21.1"
   },
   "devDependencies": {
+    "babel": "^5.8.23",
+    "babel-eslint": "^4.1.5",
+    "eslint": "^1.10.1",
     "tape": "^4.2.2"
   }
 }
