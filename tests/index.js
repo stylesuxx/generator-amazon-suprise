@@ -26,7 +26,7 @@ test('Bot: empty constructor', function(t) {
 });
 
 test('Bot: wish list fetching', function(t) {
-  t.plan(18);
+  t.plan(19);
 
   const bot = new Bot(testData);
   const limits = bot.getPriceLimits();
@@ -44,7 +44,8 @@ test('Bot: wish list fetching', function(t) {
     t.equals(results[1].items.length > 25, true, 'wish list: Items');
     
     var filtered = bot.getFiltered();
-    t.equals(filtered.length > 25, true, 'wish list filtered: items');
+    var amount = filtered.length;
+    t.equals(amount > 25, true, 'wish list filtered: items');
     t.ok(filtered[0].id, 'wish list filtered: item id');
     t.ok(filtered[0].title, 'wish list filtered: item title');
     t.ok(filtered[0].currency, 'wish list filtered: item currency');
@@ -55,5 +56,6 @@ test('Bot: wish list fetching', function(t) {
     t.ok(chosen.title, 'Chosen: item title');
     t.ok(chosen.currency, 'Chosen: item currency');
     t.ok(chosen.price <= testData.limits.max && filtered[0].price >= testData.limits.min, 'Chosen: item price');
+    t.ok(bot.getFiltered().length === (amount - 1), 'Chosen: removed');
   });
 });
