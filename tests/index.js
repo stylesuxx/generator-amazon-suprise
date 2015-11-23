@@ -26,7 +26,7 @@ test('Bot: empty constructor', function(t) {
 });
 
 test('Bot: testdata', function(t) {
-  t.plan(5);
+  t.plan(9);
 
   const bot = new Bot(testData);
   const limits = bot.getPriceLimits();
@@ -35,4 +35,12 @@ test('Bot: testdata', function(t) {
   t.equals(bot.getTld(), testData.tld, 'tld');
   t.equals(bot.getListIds().length, testData.lists.length, 'list ids');
   t.equals(bot.getMultiple(), testData.multiple, 'multiple ordering');
+
+  bot.loadLists().then((results) => {
+    results = bot.getLists();
+    t.equals(results.length, 2, 'wish list content');
+    t.equals(results[1].title, 'testing', 'title ok');
+    t.equals(results[1].id, testData.lists[1], 'ID ok');
+    t.equals(results[1].items.length > 25, true, 'items ok');
+  });
 });
