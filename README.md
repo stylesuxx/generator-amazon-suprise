@@ -12,6 +12,12 @@ To invoke the generator create a directory for the generator and run it:
     mkdir generator-amazon-surprise
     yo amazon-surprise
 
+## Todo's
+* [ ] Filter out items that are already in the history
+* [ ] Filter items by price
+* [ ] Add functionality to order multiple parts till max price is reached
+* [ ] Add test for utils
+* [ ] Prompt for Amazon username and password (this should be in a seperte config which is ignored by git)
 
 ## [MIT](https://opensource.org/licenses/MIT) License
 Copyright (c) 2015 Chris Landa
