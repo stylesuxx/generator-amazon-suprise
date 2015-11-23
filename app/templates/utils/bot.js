@@ -59,6 +59,32 @@ class Bot {
 
     return filtered;
   }
+
+  remove(id) {
+    var filtered = [];
+    for(let list of this.lists) {
+      var items = [];
+      for(let item of list.items) {
+        if(item.id !== id) {
+          items.push(item);
+        }
+      }
+      list.items = items;
+      filtered.push(list)
+    }
+
+    this.lists = filtered;
+  }
+
+  chooseOne() {
+    const filtered = this.getFiltered();
+    const rand = Math.floor(Math.random() * filtered.length);
+    const chosen = filtered[rand];
+
+    this.remove(chosen.id);
+
+    return chosen;
+  }
 }
 
 export default Bot;
