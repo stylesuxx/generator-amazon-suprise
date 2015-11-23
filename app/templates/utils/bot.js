@@ -1,5 +1,5 @@
 import AWL from 'amazon-wish-list';
-import Promises from 'bluebird';
+import Promise from 'bluebird';
 
 class Bot {
   constructor(config = {}) {
@@ -8,6 +8,10 @@ class Bot {
     this.maxLimit = (config.limits && config.limits.max) ? config.limits.max : 20;
     this.listIds = config.lists || [];
     this.multiple = config.multiple || false;
+
+    this.awl = new AWL(this.tld);
+
+    this.lists = [];
   }
 
   getTld() {
@@ -26,11 +30,22 @@ class Bot {
     return this.multiple;
   }
 
-  /*
-  getAllItems() {
-    return this.itemsAll;
+  getLists() {
+    return this.lists;
   }
-  */
+
+  loadLists() {
+    var promises = [];
+    for(let id of this.listIds) {
+      promises.push(this.awl.getById(id));
+    }
+
+    return Promise.all(promises).then((results) => {
+      this.lists = results;
+
+      return this.lists;
+    });
+  }
 }
 
 export default Bot;
