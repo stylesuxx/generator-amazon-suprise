@@ -18,6 +18,7 @@ To invoke the generator create a directory for the generator and run it:
 * [ ] Add functionality to order multiple parts till max price is reached
 * [ ] Add test for utils
 * [ ] Prompt for Amazon username and password (this should be in a seperte config which is ignored by git)
+* [ ] Refactor utils to plain utils and to a seperate bot file
 
 ## [MIT](https://opensource.org/licenses/MIT) License
 Copyright (c) 2015 Chris Landa
