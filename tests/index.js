@@ -26,7 +26,7 @@ test('Bot: empty constructor', function(t) {
 });
 
 test('Bot: wish list fetching', function(t) {
-  t.plan(14);
+  t.plan(18);
 
   const bot = new Bot(testData);
   const limits = bot.getPriceLimits();
@@ -49,5 +49,11 @@ test('Bot: wish list fetching', function(t) {
     t.ok(filtered[0].title, 'wish list filtered: item title');
     t.ok(filtered[0].currency, 'wish list filtered: item currency');
     t.ok(filtered[0].price <= testData.limits.max && filtered[0].price >= testData.limits.min, 'wish list filtered: item price');
+    
+    var chosen = bot.chooseOne();
+    t.ok(chosen.id, 'Chosen: item id');
+    t.ok(chosen.title, 'Chosen: item title');
+    t.ok(chosen.currency, 'Chosen: item currency');
+    t.ok(chosen.price <= testData.limits.max && filtered[0].price >= testData.limits.min, 'Chosen: item price');
   });
 });
