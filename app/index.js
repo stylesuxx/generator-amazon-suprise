@@ -145,13 +145,14 @@ module.exports = generators.Base.extend({
           this.username = username;
           return this.prompts.getPassword(this).then((password) => {
             this.password = password;
-            done();
           })
         });
       }
       else {
         this.env.error('Aborted...');
       }
+    }).then(() => {
+      done();
     });
   },
 
