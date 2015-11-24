@@ -13,12 +13,15 @@ To invoke the generator create a directory for the generator and run it:
     yo amazon-surprise
 
 ## Todo's
-* [ ] Filter out items that are already in the history
-* [ ] Filter items by price
-* [ ] Add functionality to order multiple parts till max price is reached
-* [ ] Add test for utils
+* [x] Filter out items that are already in the history
+* [x] Filter items by price
+* [x] Add test for utils
+* [x] Refactor utils to plain utils and to a seperate bot file
+* [ ] Display information about how to best configure Amazon
 * [ ] Prompt for Amazon username and password (this should be in a seperte config which is ignored by git)
-* [ ] Refactor utils to plain utils and to a seperate bot file
+* [ ] Add functionality to order multiple parts till max price is reached
+* [ ] Add weight to those items that have higher priority
+* [ ] Add functionality to simulate an order
 
 ## [MIT](https://opensource.org/licenses/MIT) License
 Copyright (c) 2015 Chris Landa
