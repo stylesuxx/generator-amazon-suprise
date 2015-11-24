@@ -1,7 +1,8 @@
 'use strict';
 var generators = require('yeoman-generator');
 var chalk = require('chalk');
-var utils = require('./templates/utils')
+var utils = require('../lib/index')
+var Bot = require('../lib/bot')
 
 module.exports = generators.Base.extend({
   helper: {
@@ -86,24 +87,36 @@ module.exports = generators.Base.extend({
     }).then((multiple) => {
       this.multiple = multiple;
 
-      return utils.getItemsInRange(this.tld, this.lists, this.minLimit, this.maxLimit);
+      let options = {
+        tld: this.tld,
+        limits: {
+          min: this.minLimit,
+          max: this.maxLimit
+        },
+        lists: this.lists
+      };
+
+      const bot = new Bot(options);
+      return bot.loadLists().then(() => {
+        return bot.getFiltered();
+      });
     }).then((items) => {
-        this.matches = items;
+      this.matches = items;
 
-        return this.prompts.getShowMatches(this, items);
+      return this.prompts.getShowMatches(this, items);
     }).then((show) => {
-        if(show) {
-          for(let match of this.matches) {
-            var price = match.price.toFixed(2);
-            var padding = 7 - price.length;
-            for(var i = 0; i < padding; i++) {
-              price = ' ' + price;
-            }
-
-            this.log(chalk.green('> ') + chalk.bold(match.currency + ' ' + price + ' - ' + match.title));
+      if(show) {
+        for(let match of this.matches) {
+          var price = match.price.toFixed(2);
+          var padding = 7 - price.length;
+          for(var i = 0; i < padding; i++) {
+            price = ' ' + price;
           }
+
+          this.log(chalk.green('> ') + chalk.bold(match.currency + ' ' + price + ' - ' + match.title));
         }
-        done();
+      }
+      done();
     });
   },
 
