@@ -1,7 +1,6 @@
-'use strict';
-
 const test = require('tape');
 const Bot = require('../lib/bot');
+const utils = require('../lib/index');
 const fs = require('fs');
 
 const testData = {
@@ -14,6 +13,14 @@ const testData = {
   multiple: false,
   history: './history.js'
 };
+
+test('Utils', function(t) {
+  t.plan(1);
+
+  utils.getListsByCid('de', 'A3ETU88UAET9K3').then((results) => {
+    t.ok(results.length > 3, 'get wish lists');
+  });
+});
 
 test('Bot: empty constructor', function(t) {
   t.plan(5);
