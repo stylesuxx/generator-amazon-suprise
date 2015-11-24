@@ -1,3 +1,4 @@
+'use strict';
 import AWL from 'amazon-wish-list';
 import Promise from 'bluebird';
 import fs from 'fs';
