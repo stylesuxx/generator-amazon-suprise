@@ -23,7 +23,8 @@
   "dependencies": {
     "amazon-wish-list": "^0.4.0",
     "chalk": "^1.1.1",
-    "yeoman-generator": "^0.21.1"
+    "yeoman-generator": "^0.21.1",
+    "yosay": "^1.1.0"
   },
   "devDependencies": {
     "babel": "^5.8.23",
