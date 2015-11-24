@@ -21,11 +21,7 @@ module.exports = generators.Base.extend({
     this.lists = [];
 
     this.baseConfig = () => {
-      return this.prompts.getAppname(this).then((appname) => {
-        this.appname = appname;
-
-        return this.prompts.getTld(this);
-      }).then((tld) => {
+      return this.prompts.getTld(this).then((tld) => {
         this.tld = tld;
 
         return new Promise((resolve, reject) => resolve());
@@ -57,8 +53,7 @@ module.exports = generators.Base.extend({
           return new Promise((resolve, reject) => resolve([]));
         }
       }, (error) => {
-        this.log(chalk.red('!'), chalk.bold('Customer ID is not valid - can ' +
-          'not get wish lists!'));
+        this.log(chalk.red('!'), chalk.red.bold('Customer ID is not valid!'));
         return this.prompts.getRetry(this).then((retry) => {
           if(retry) {
             return this.cidConfig();
@@ -74,11 +69,15 @@ module.exports = generators.Base.extend({
   prompting: function() {
     var done = this.async();
 
+    this.log(yosay(chalk.bold('In order to be able to suprise you with random items from your Amazon wish lists I will first need to ask you some questions.')));
+
     this.baseConfig().then(() => {
       return this.cidConfig();
     }).then((lists) => {
       this.lists = lists;
 
+      this.log();
+      this.log(chalk.green('?'), chalk.bold('How much money should I spend on your surprise?'));
       return this.prompts.getMinLimit(this);
     }).then((limit) => {
       this.minLimit = limit;
@@ -103,8 +102,7 @@ module.exports = generators.Base.extend({
           lists: this.lists
         };
 
-        this.log(chalk.green('>'), chalk.bold('Fetching items in price range - ' +
-        'this may take some time...'));
+        this.log(chalk.green('>'), chalk.bold('Fetching items - this may take some time...'));
         const bot = new Bot(options);
         return bot.loadLists().then(() => {
           for(let match of bot.getFiltered()) {
@@ -141,7 +139,7 @@ module.exports = generators.Base.extend({
         'to the point where he may order items that are not on your wish ' +
         'list or even out of your price range - although this is '
         + chalk.bold('very unlikely'));
-      
+
       return this.prompts.getContinue(this);
     }).then((prompt) => {
       if(prompt) {
