@@ -131,7 +131,8 @@ module.exports = generators.Base.extend({
       this.copy('.gitignore', '.gitignore');
       this.copy('index.js', 'index.js');
 
-      this.copy('utils/index.js', 'utils/index.js');
+      this.copy('../../lib/index.js', 'lib/index.js');
+      this.copy('../../lib/bot.js', 'lib/bot.js');
     },
 
     templates: function() {
