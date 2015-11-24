@@ -3,5 +3,9 @@ module.exports = {
   lists: <%- JSON.stringify(lists) %>,
   minLimit: <%= minLimit %>,
   maxLimit: <%= maxLimit %>,
-  multiple: <%= multiple %>
+  multiple: <%= multiple %>,
+  credentials: {
+    username: <%- JSON.stringify(username) %>,
+    password: <%- JSON.stringify(password) %>
+  }
 };

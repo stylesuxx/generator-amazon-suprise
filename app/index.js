@@ -32,8 +32,7 @@ module.exports = generators.Base.extend({
       return this.prompts.getCid(this).then((cid) =>{
         this.cid = cid;
 
-        this.log(chalk.green('>'), chalk.bold('Fetching public lists - this ' +
-          'may take some time...'));
+        this.log(chalk.green('>'), chalk.bold('Fetching public lists - this may take some time...'));
         return utils.getListsByCid(this.tld, this.cid);
       }).then((lists) => {
         var choices = [];
@@ -48,8 +47,7 @@ module.exports = generators.Base.extend({
           return this.prompts.getEnabledLists(this, choices);
         }
         else {
-          this.log(chalk.orange('!'), chalk.bold('No public wish lists for ' +
-            'this customer ID.'));
+          this.log(chalk.orange('!'), chalk.bold('No public wish lists for this customer ID.'));
           return new Promise((resolve, reject) => resolve([]));
         }
       }, (error) => {
@@ -112,8 +110,7 @@ module.exports = generators.Base.extend({
               price = ' ' + price;
             }
 
-            this.log(chalk.green('> ') + chalk.bold(match.currency + ' ' + price +
-              ' - ' + match.title));
+            this.log(chalk.green('> ') + chalk.bold(match.currency + ' ' + price + ' - ' + match.title));
           }
         });
       }
@@ -139,11 +136,18 @@ module.exports = generators.Base.extend({
         'to the point where he may order items that are not on your wish ' +
         'list or even out of your price range - although this is '
         + chalk.bold('very unlikely'));
+      this.log('I also need to store your Amazon ' + chalk.bold('credentials in clear text') + ', although only your user will be able to read the file.');
 
       return this.prompts.getContinue(this);
     }).then((prompt) => {
       if(prompt) {
-        done();
+        return this.prompts.getUsername(this).then((username) => {
+          this.username = username;
+          return this.prompts.getPassword(this).then((password) => {
+            this.password = password;
+            done();
+          })
+        });
       }
       else {
         this.env.error('Aborted...');

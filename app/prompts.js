@@ -115,10 +115,36 @@ module.exports = {
       generator.prompt({
         type: 'confirm',
         name: 'continue',
-        message: 'Continue?',
+        message: 'Proceed to credential prompt?',
         default: true
       }, (answers) => {
-        resolve(answers.showMatches);
+        resolve(answers.continue);
+      });
+    });
+  },
+
+  getUsername: function(generator) {
+    return new Promise((resolve, reject) => {
+      generator.prompt({
+        type: 'input',
+        name: 'username',
+        message: 'Username',
+        default: 'Username or E-Mail Address'
+      }, (answers) => {
+        resolve(answers.username);
+      });
+    });
+  },
+
+  getPassword: function(generator) {
+    return new Promise((resolve, reject) => {
+      generator.prompt({
+        type: 'password',
+        name: 'password',
+        message: 'Password',
+        default: 'Password will not be displayed'
+      }, (answers) => {
+        resolve(answers.password);
       });
     });
   },
