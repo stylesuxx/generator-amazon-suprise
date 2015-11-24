@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "npm run clean && ./node_modules/.bin/babel app/templates/utils --out-dir lib",
+    "build": "npm run clean && ./node_modules/.bin/babel src --out-dir lib",
     "test": "npm run build && node ./tests/index.js",
     "lint": "./node_modules/.bin/eslint src",
     "prepublish": "npm run build",
