@@ -2,8 +2,9 @@
 var generators = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
-var utils = require('../lib/index')
-var Bot = require('../lib/bot')
+var utils = require('../lib/index');
+var Bot = require('../lib/bot');
+var fs = require('fs');
 
 module.exports = generators.Base.extend({
   helper: {
@@ -174,6 +175,7 @@ module.exports = generators.Base.extend({
     templates: function() {
       this.template('_package.json', 'package.json');
       this.template('_config.js', 'config.js');
+      fs.chmodSync('config.js', '600');
     }
   },
 
