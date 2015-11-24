@@ -1,5 +1,6 @@
 import AWL from 'amazon-wish-list';
 import Promise from 'bluebird';
+import fs from 'fs';
 
 class Bot {
   constructor(config = {}) {
@@ -8,10 +9,47 @@ class Bot {
     this.maxLimit = (config.limits && config.limits.max) ? config.limits.max : 20;
     this.listIds = config.lists || [];
     this.multiple = config.multiple || false;
+    this.history = config.history || './history.js';
 
     this.awl = new AWL(this.tld);
 
     this.lists = [];
+    this.removed = [];
+
+    this.readHistory = function() {
+      try {
+        let removed = fs.readFileSync(this.history, 'utf8');
+        this.removed = JSON.parse(removed);
+      }
+      catch(e) {
+        this.writeHistory();
+      }
+    };
+
+    this.writeHistory = function() {
+      fs.writeFileSync(this.history, JSON.stringify(this.removed));
+    };
+
+    this.remove = function(id) {
+      this.removed.push(id);
+      this.writeHistory()
+
+      var filtered = [];
+      for(let list of this.lists) {
+        var items = [];
+        for(let item of list.items) {
+          if(item.id !== id) {
+            items.push(item);
+          }
+        }
+        list.items = items;
+        filtered.push(list)
+      }
+
+      this.lists = filtered;
+    };
+
+    this.readHistory();
   }
 
   getTld() {
@@ -51,29 +89,16 @@ class Bot {
     var filtered = [];
     for(let list of this.lists) {
       for(let item of list.items) {
-        if(item.price >= this.minLimit && item.price <= this.maxLimit) {
+        if(item.price >= this.minLimit &&
+          item.price <= this.maxLimit &&
+          this.removed.indexOf(item.id) < 0) {
+
           filtered.push(item);
         }
       }
     }
 
     return filtered;
-  }
-
-  remove(id) {
-    var filtered = [];
-    for(let list of this.lists) {
-      var items = [];
-      for(let item of list.items) {
-        if(item.id !== id) {
-          items.push(item);
-        }
-      }
-      list.items = items;
-      filtered.push(list)
-    }
-
-    this.lists = filtered;
   }
 
   chooseOne() {
@@ -84,6 +109,10 @@ class Bot {
     this.remove(chosen.id);
 
     return chosen;
+  }
+
+  getRemoved() {
+    return this.removed;
   }
 }
 
