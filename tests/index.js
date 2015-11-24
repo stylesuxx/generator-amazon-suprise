@@ -2,6 +2,7 @@
 
 const test = require('tape');
 const Bot = require('../lib/bot');
+const fs = require('fs');
 
 const testData = {
   tld: 'de',
@@ -10,7 +11,8 @@ const testData = {
     max: 30
   },
   lists: ['S1BZ8MKVJGMC', 'NDDVVVWMJ6AN'],
-  multiple: false
+  multiple: false,
+  history: './history.js'
 };
 
 test('Bot: empty constructor', function(t) {
@@ -26,7 +28,7 @@ test('Bot: empty constructor', function(t) {
 });
 
 test('Bot: wish list fetching', function(t) {
-  t.plan(20);
+  t.plan(21);
 
   const bot = new Bot(testData);
   const limits = bot.getPriceLimits();
@@ -42,7 +44,7 @@ test('Bot: wish list fetching', function(t) {
     t.equals(results[1].title, 'testing', 'wish list: title');
     t.equals(results[1].id, testData.lists[1], 'wish list: ID');
     t.equals(results[1].items.length > 25, true, 'wish list: Items');
-    
+
     var filtered = bot.getFiltered();
     var amount = filtered.length;
     t.equals(amount > 25, true, 'wish list filtered: items');
@@ -50,7 +52,7 @@ test('Bot: wish list fetching', function(t) {
     t.ok(filtered[0].title, 'wish list filtered: item title');
     t.ok(filtered[0].currency, 'wish list filtered: item currency');
     t.ok(filtered[0].price <= testData.limits.max && filtered[0].price >= testData.limits.min, 'wish list filtered: item price');
-    
+
     var chosen = bot.chooseOne();
     t.ok(chosen.id, 'Chosen: item id');
     t.ok(chosen.title, 'Chosen: item title');
@@ -59,6 +61,7 @@ test('Bot: wish list fetching', function(t) {
     t.ok(bot.getFiltered().length === (amount - 1), 'Chosen: removed');
     
     var removed = bot.getRemoved();
-    t.equals(removed[0], chosen.id, 'Removed: match chosen')
+    t.equals(removed[removed.length - 1], chosen.id, 'Removed: match chosen')
+    t.ok(fs.unlinkSync(testData.history) === undefined, 'Removed: history file');
   });
 });
