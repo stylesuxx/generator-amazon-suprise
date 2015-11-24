@@ -17,11 +17,14 @@ To invoke the generator create a directory for the generator and run it:
 * [x] Filter items by price
 * [x] Add test for utils
 * [x] Refactor utils to plain utils and to a seperate bot file
-* [ ] Display information about how to best configure Amazon
-* [ ] Prompt for Amazon username and password (this should be in a seperte config which is ignored by git)
+* [x] Display information about how to best configure Amazon
+* [x] Prompt for Amazon username and password (this should be in a seperte config which is ignored by git)
+* [ ] Add tests to make sure the generator is working properly
+* [ ] Add functionality to simulate an order
 * [ ] Add functionality to order multiple parts till max price is reached
 * [ ] Add weight to those items that have higher priority
-* [ ] Add functionality to simulate an order
+* [ ] Make weight selectable via generator
+* [ ] Skip generation till testing step if config file is present.
 
 ## [MIT](https://opensource.org/licenses/MIT) License
 Copyright (c) 2015 Chris Landa
