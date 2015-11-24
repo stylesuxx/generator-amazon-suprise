@@ -45,10 +45,8 @@ class Bot {
         list.items = items;
         filtered.push(list)
       }
-
       this.lists = filtered;
     };
-
     this.readHistory();
   }
 
